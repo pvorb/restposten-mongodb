@@ -3,8 +3,8 @@
 var url = require('url');
 var async = require('async');
 var mongodb = require('mongodb');
-var common = require('../common');
-var resourceful = require('../../resourceful');
+var clone = require('clone');
+var Cache = require('persistence-cache').Cache;
 var Db = mongodb.Db;
 var Server = mongodb.Server;
 var Connection = mongodb.Connection;
@@ -20,12 +20,12 @@ var Mongodb = exports.Mongodb = function Mongodb(config) {
   this.user = config.auth ? config.auth.user : config.user || null;
   this.pass = config.auth ? config.auth.pass : config.pass || null;
 
-  this.db = new Db(config.database || resourceful.env || 'test', new Server(
+  this.db = new Db(config.database || 'test', new Server(
       config.host || config.uri || '127.0.0.1', config.port || 27017));
 
-  this.collection = config.collection || 'resourceful';
+  this.collection = config.collection;
 
-  this.cache = new resourceful.Cache();
+  this.cache = new Cache();
 };
 
 Mongodb.prototype.protocol = 'mongodb';
@@ -148,7 +148,7 @@ Mongodb.prototype.get = function(id, callback) {
 
 Mongodb.prototype.load = function(data) {
   var self = this;
-  var array = common.clone(data);
+  var array = clone(data);
   return this.request(function(err) {
     if (err)
       return callback(err);
@@ -219,10 +219,10 @@ Mongodb.prototype.save = function(/* id, doc, callback */) {
   }
 
   if (id) {
-    save = common.clone(doc);
+    save = clone(doc);
     save._id = doc.id = id;
   } else {
-    save = common.clone(doc);
+    save = clone(doc);
     save._id = save.id;
     delete save.id;
   }
