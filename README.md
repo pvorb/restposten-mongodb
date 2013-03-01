@@ -8,4 +8,4 @@ MongoDB engine intended to be used with
 License
 -------
 
-[MIT License](/LICENSE.txt)
+[MIT License](LICENSE.txt)
