@@ -8,4 +8,4 @@ MongoDB engine intended to be used with
 License
 -------
 
-[Apache 2.0 License](LICENSE.txt)
+[MIT License](/LICENSE.txt)
