@@ -15,11 +15,21 @@ var async = require('async');
  * Connects to a MongoDB database.
  * 
  * @param {Object}
- *            options a single object for the Server options and the DB options.
+ *            [options] a single object for the Server options and the DB
+ *            options.
  * @param {String}
  *            options.host defaults to `'localhost'`
  * @param {Int}
- *            options.port defaults to `27017`
+ *            options.port defaults to `27017` created: -1}]`
+ * @param {String}
+ *            options.name name of the database created: -1}]`
+ * @param {Function(err,
+ *            db)} callback is called when an error occurs or when the database
+ *            connection has been established.
+ * @param {Error*}
+ *            callback.err the error, if an error occurred or `null`
+ * @param {DB}
+ *            callback.db the `DB` instance
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/database.html#server-options}
  *      and
@@ -27,12 +37,19 @@ var async = require('async');
  *      for more information on the possible options
  */
 exports.connect = function(options, callback) {
+  // set optional arguments
+  if (arguments.length == 1) {
+    callback == options;
+    options = {};
+  }
+
   var host = options.host || 'localhost';
   var port = options.port || 27017;
 
   // strict mode must always be off, since otherwise, collection creation etc.
   // would not work
   options.strict = false;
+  options.safe = true;
 
   var mongoServer = new mongo.Server(host, port, options);
   var dbConnector = new mongo.Db(options.name, mongoServer, options);
@@ -69,12 +86,12 @@ function DB(dbConnection) {
  *            [indexes] array of indexes passed to `ensureIndex()` eg. `['id', {
  *            created: -1}]`
  * @param {Function(err,
- *            db)} callback is called when an error occurs or when the
+ *            collection)} callback is called when an error occurs or when the
  *            collection is returned.
  * @param {Error*}
  *            callback.err the error, if an error occurred or `null`
- * @param {DB}
- *            callback.db the `DB` instance
+ * @param {Collection}
+ *            callback.collection the `Collection` instance
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/indexes.html}
  */
@@ -89,17 +106,16 @@ DB.prototype.getCollection = function(name, indexes, callback) {
       return callback(err);
 
     // when there are no indexes, return the collection immediately
-    if (indexes === null)
+    if (indexes === null || indexes.length == 0)
       return callback(null, new Collection(coll));
 
     // ensure all indexes before returning the collection
     // therefore indexes are mapped to the ensureIndex method
-    async.map(indexes, coll.ensureIndex, function(err) {
-      if (err)
-        return callback(err);
-
-      callback(null, new Collection(coll));
+    indexes.forEach(function(index) {
+      coll.ensureIndex(index, function () {});
     });
+    
+    callback(null, new Collection(coll));
   });
 };
 
@@ -157,6 +173,25 @@ Collection.prototype.find = function(query, fields, options, callback) {
   } else {
     this._coll.find(query, fields, options, callback);
   }
+};
+
+Collection.prototype.findOne = function(query, fields, options, callback) {
+//optional arguments
+  if (arguments.length == 2) {
+    callback = fields;
+    fields = null;
+    options = {};
+  } else if (arguments.length == 3) {
+    callback = options;
+    options = fields;
+    fields = null;
+  }
+  
+  // call the query
+  if (fields == null)
+    this._coll.findOne(query, options, callback);
+  else
+    this._coll.findOne(query, fields, options, callback);
 };
 
 /**
