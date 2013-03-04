@@ -69,10 +69,11 @@ exports.connect = function(options, callback) {
  * 
  * @param {Db}
  *            dbConnection db connection object
+ * @property {String} protocol Database protocol
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html}
  */
-function DB(dbConnection) {
+exports.DB = function DB(dbConnection) {
   this._db = dbConnection;
 }
 
@@ -112,9 +113,10 @@ DB.prototype.getCollection = function(name, indexes, callback) {
     // ensure all indexes before returning the collection
     // therefore indexes are mapped to the ensureIndex method
     indexes.forEach(function(index) {
-      coll.ensureIndex(index, function () {});
+      coll.ensureIndex(index, function() {
+      });
     });
-    
+
     callback(null, new Collection(coll));
   });
 };
@@ -137,7 +139,7 @@ function Collection(coll) {
 }
 
 /**
- * Finds all records, that match a given query.
+ * Finds all records that match a given query.
  * 
  * @param {Object|String}
  *            query resulting objects must match this query. Consult the
@@ -152,6 +154,11 @@ function Collection(coll) {
  * @param {Function(err,
  *            res)} callback is called when an error occurs or when the
  *            record(s) return
+ * @param {Error*}
+ *            callback.err the error, if an error occurred or `null`
+ * @param {Object|Int}
+ *            callback.saved the record, if it has been inserted and `1` if the
+ *            record has been updated
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#find}
  */
@@ -168,15 +175,40 @@ Collection.prototype.find = function(query, fields, options, callback) {
   }
 
   // call the query
-  if (fields == null) {
-    this._coll.find(query, options, callback);
-  } else {
-    this._coll.find(query, fields, options, callback);
-  }
+  if (fields === null)
+    this._coll.find(query, options).toArray(callback);
+  else
+    this._coll.find(query, fields).toArray(callback);
 };
 
+/**
+ * Finds the first record that matches a given query. Use this method, if you
+ * know that there will be only one resulting document. (E.g. when you want to
+ * find a result by its `_id`.)
+ * 
+ * @param {Object|String}
+ *            query resulting objects must match this query. Consult the
+ *            [node-mongodb-native
+ *            documentation](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#query-object)
+ * @param {String|Int|ObjectId}
+ *            [query._id] If specified, MongoDB will search by ID
+ * @param {String[]}
+ *            [fields] specifies the fields of the resulting objects
+ * @param {Object}
+ *            [options] defines extra logic (sorting options, paging etc.)
+ * @param {Function(err,
+ *            res)} callback is called when an error occurs or when the
+ *            record(s) return
+ * @param {Error*}
+ *            callback.err the error, if an error occurred or `null`
+ * @param {Object|Int}
+ *            callback.saved the record, if it has been inserted and `1` if the
+ *            record has been updated
+ * 
+ * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#find}
+ */
 Collection.prototype.findOne = function(query, fields, options, callback) {
-//optional arguments
+  // optional arguments
   if (arguments.length == 2) {
     callback = fields;
     fields = null;
@@ -186,7 +218,7 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
     options = fields;
     fields = null;
   }
-  
+
   // call the query
   if (fields == null)
     this._coll.findOne(query, options, callback);
