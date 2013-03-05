@@ -73,7 +73,7 @@ exports.connect = function(options, callback) {
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html}
  */
-exports.DB = function DB(dbConnection) {
+function DB(dbConnection) {
   this._db = dbConnection;
 }
 
@@ -121,8 +121,30 @@ DB.prototype.getCollection = function(name, indexes, callback) {
   });
 };
 
+/**
+ * Closes the connection to the database.
+ * 
+ * @param {Boolean}
+ *            [force] force to close the connect so that it cannot be reused.
+ * @param {Function(err,
+ *            results)} callback is called when the db has been closed or an
+ *            error occurred
+ * @param {Error*}
+ *            callback.err the error, if an error occurred or `null`
+ * @param {Object}
+ *            callback.results
+ * 
+ * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html#close}
+ */
+DB.prototype.close = function(force, callback) {
+  if (arguments.length == 1)
+    this._db.close(arguments[0]);
+  else
+    this._db.close(force, callback);
+};
+
 // NOTE:
-// Removing collections or databases is not supported and can only be done
+// Removing whole collections or databases is not supported and can only be done
 // manually via the mongo console.
 
 /**
