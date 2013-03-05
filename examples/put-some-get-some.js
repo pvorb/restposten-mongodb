@@ -2,7 +2,9 @@ var mongo = require('../');
 var async = require('async');
 
 async.waterfall([ function(callback) {
-  mongo.connect({ name: 'persistence_test' }, callback)
+  mongo.connect({
+    name : 'persistence_test'
+  }, callback)
 }, function(db, callback) {
   db.getCollection('author', [ '_id' ], callback);
 }, function(collection, callback) {
@@ -24,10 +26,7 @@ async.waterfall([ function(callback) {
   if (err)
     throw err;
 
-  records.each(function (err, record) {
-    if (err)
-      console.err(err);
-    
+  records.forEach(function(record) {
     console.log('found', record)
   });
 });
