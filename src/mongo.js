@@ -261,3 +261,15 @@ Collection.prototype.save = function(record, options, callback) {
 
   this._coll.save(record, options, callback);
 };
+
+Collection.prototype.delete = function(query, options, callback) {
+  // optional arguments
+  if (arguments.length == 2) {
+    callback = options;
+    options = {};
+  }
+  
+  options.safe = true;
+  
+  this._coll.remove(query, options, callback);
+};
