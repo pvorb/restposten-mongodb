@@ -117,7 +117,7 @@ DB.prototype.getCollection = function(name, indexes, callback) {
       });
     });
 
-    callback(null, new Collection(coll));
+    callback(null, new Collection(name, coll));
   });
 };
 
@@ -151,13 +151,21 @@ DB.prototype.close = function(force, callback) {
  * @classdesc Thin wrapper around mongodb's collection type.
  * @constructor
  * 
- * @param {Collection}
+ * @param {String}
+ *            name name of the collection
+ * @param {Object}
  *            collection collection object
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html}
+ * 
+ * @property {String} name name of the collection
  */
-function Collection(coll) {
+function Collection(name, coll) {
   this._coll = coll;
+  
+  this.__defineGetter__('name', function() {
+    return name;
+  });
 }
 
 /**
