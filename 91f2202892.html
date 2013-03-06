@@ -109,6 +109,57 @@
 <dl class="details">
     
         
+        <h5 class="subsection-title">Properties:</h5>
+        
+        <dl>
+
+<table class="props">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>protocol</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>Database protocol</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table></dl>
+        
+    
+        
     
     
     
@@ -128,7 +179,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        mongo.js, line 58
+        mongo.js, line 76
     </li></ul></dd>
     
     
@@ -175,6 +226,238 @@
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
+            
+<dt>
+    <h4 class="name" id="close"><span class="type-signature"></span>close<span class="signature">(<span class="optional">force</span>, callback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Closes the connection to the database.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>force</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last"><p>force to close the connect so that it cannot be reused.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Function(err,
+           results)</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last"><p>is called when the db has been closed or an
+           error occurred</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Error*</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>the error, if an error occurred or <code>null</code></p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>results</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+            </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        mongo.js, line 139
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://mongodb.github.com/node-mongodb-native/api-generated/db.html#close">http://mongodb.github.com/node-mongodb-native/api-generated/db.html#close</a></li>
+        </ul>
+    </dd>
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
             
 <dt>
     <h4 class="name" id="getCollection"><span class="type-signature"></span>getCollection<span class="signature">(name, <span class="optional">indexes</span>, callback)</span><span class="type-signature"></span></h4>
@@ -289,8 +572,8 @@ in <code>indexes</code> are always indexed.</p>
             <td class="type">
             
                 
-<span class="param-type">Function(error,
-           db)</span>
+<span class="param-type">Function(err,
+           collection)</span>
 
 
             
@@ -333,7 +616,7 @@ in <code>indexes</code> are always indexed.</p>
 	
         <tr>
             
-                <td class="name"><code>error</code></td>
+                <td class="name"><code>err</code></td>
             
             
             <td class="type">
@@ -356,13 +639,13 @@ in <code>indexes</code> are always indexed.</p>
 	
         <tr>
             
-                <td class="name"><code>db</code></td>
+                <td class="name"><code>collection</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">DB</span>
+<span class="param-type">Collection</span>
 
 
             
@@ -372,7 +655,7 @@ in <code>indexes</code> are always indexed.</p>
             
             
             
-            <td class="description last"><p>the <code>DB</code> instance</p></td>
+            <td class="description last"><p>the <code>Collection</code> instance</p></td>
         </tr>
 	
 	
@@ -409,7 +692,7 @@ in <code>indexes</code> are always indexed.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        mongo.js, line 81
+        mongo.js, line 99
     </li></ul></dd>
     
     
@@ -459,7 +742,7 @@ in <code>indexes</code> are always indexed.</p>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.1.1</a> on Fri Mar 01 2013 13:19:59 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.1.1</a> on Wed Mar 06 2013 17:22:46 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
