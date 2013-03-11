@@ -20,8 +20,7 @@
 	"dependencies": {
 		"async": "~0.2.5",
 		"clone": "~0.1.5",
-		"mongodb": "~1.2.13",
-		"persistence-cache": "~0.0.0"
+		"mongodb": "~1.2.13"
 	},
 	"devDependencies": {
 	}
