@@ -15,21 +15,21 @@ var async = require('async');
  * Connects to a MongoDB database.
  * 
  * @param {Object}
- *            [options] a single object for the Server options and the DB
- *            options.
+ *                [options] a single object for the Server options and the DB
+ *                options.
  * @param {String}
- *            options.host defaults to `'localhost'`
+ *                options.host defaults to `'localhost'`
  * @param {Int}
- *            options.port defaults to `27017` created: -1}]`
+ *                options.port defaults to `27017` created: -1}]`
  * @param {String}
- *            options.name name of the database created: -1}]`
+ *                options.name name of the database created: -1}]`
  * @param {Function(err,
- *            db)} callback is called when an error occurs or when the database
- *            connection has been established.
+ *                db)} callback is called when an error occurs or when the
+ *                database connection has been established.
  * @param {Error*}
- *            callback.err the error, if an error occurred or `null`
+ *                callback.err the error, if an error occurred or `null`
  * @param {DB}
- *            callback.db the `DB` instance
+ *                callback.db the `DB` instance
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/database.html#server-options}
  *      and
@@ -68,7 +68,7 @@ exports.connect = function(options, callback) {
  * @constructor
  * 
  * @param {Db}
- *            dbConnection db connection object
+ *                dbConnection db connection object
  * @property {String} protocol Database protocol
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html}
@@ -82,17 +82,17 @@ function DB(dbConnection) {
  * in `indexes` are always indexed.
  * 
  * @param {String}
- *            name collection's name
+ *                name collection's name
  * @param {Array}
- *            [indexes] array of indexes passed to `ensureIndex()` eg. `['id', {
- *            created: -1}]`
+ *                [indexes] array of indexes passed to `ensureIndex()` eg.
+ *                `['id', { created: -1}]`
  * @param {Function(err,
- *            collection)} callback is called when an error occurs or when the
- *            collection is returned.
+ *                collection)} callback is called when an error occurs or when
+ *                the collection is returned.
  * @param {Error*}
- *            callback.err the error, if an error occurred or `null`
+ *                callback.err the error, if an error occurred or `null`
  * @param {Collection}
- *            callback.collection the `Collection` instance
+ *                callback.collection the `Collection` instance
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/indexes.html}
  */
@@ -108,7 +108,7 @@ DB.prototype.getCollection = function(name, indexes, callback) {
 
     // when there are no indexes, return the collection immediately
     if (indexes === null || indexes.length == 0)
-      return callback(null, new Collection(coll));
+      return callback(null, new Collection(name, coll));
 
     // ensure all indexes before returning the collection
     // therefore indexes are mapped to the ensureIndex method
@@ -125,14 +125,15 @@ DB.prototype.getCollection = function(name, indexes, callback) {
  * Closes the connection to the database.
  * 
  * @param {Boolean}
- *            [force] force to close the connect so that it cannot be reused.
+ *                [force] force to close the connect so that it cannot be
+ *                reused.
  * @param {Function(err,
- *            results)} callback is called when the db has been closed or an
- *            error occurred
+ *                results)} callback is called when the db has been closed or an
+ *                error occurred
  * @param {Error*}
- *            callback.err the error, if an error occurred or `null`
+ *                callback.err the error, if an error occurred or `null`
  * @param {Object}
- *            callback.results
+ *                callback.results
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html#close}
  */
@@ -152,9 +153,9 @@ DB.prototype.close = function(force, callback) {
  * @constructor
  * 
  * @param {String}
- *            name name of the collection
+ *                name name of the collection
  * @param {Object}
- *            collection collection object
+ *                collection collection object
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html}
  * 
@@ -172,23 +173,23 @@ function Collection(name, coll) {
  * Finds all records that match a given query.
  * 
  * @param {Object|String}
- *            query resulting objects must match this query. Consult the
- *            [node-mongodb-native
- *            documentation](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#query-object)
+ *                query resulting objects must match this query. Consult the
+ *                [node-mongodb-native
+ *                documentation](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#query-object)
  * @param {String|Int|ObjectId}
- *            [query._id] If specified, MongoDB will search by ID
+ *                [query._id] If specified, MongoDB will search by ID
  * @param {String[]}
- *            [fields] specifies the fields of the resulting objects
+ *                [fields] specifies the fields of the resulting objects
  * @param {Object}
- *            [options] defines extra logic (sorting options, paging etc.)
+ *                [options] defines extra logic (sorting options, paging etc.)
  * @param {Function(err,
- *            res)} callback is called when an error occurs or when the
- *            record(s) return
+ *                res)} callback is called when an error occurs or when the
+ *                record(s) return
  * @param {Error*}
- *            callback.err the error, if an error occurred or `null`
+ *                callback.err the error, if an error occurred or `null`
  * @param {Object|Int}
- *            callback.saved the record, if it has been inserted and `1` if the
- *            record has been updated
+ *                callback.saved the record, if it has been inserted and `1` if
+ *                the record has been updated
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#find}
  */
@@ -217,23 +218,23 @@ Collection.prototype.find = function(query, fields, options, callback) {
  * find a result by its `_id`.)
  * 
  * @param {Object|String}
- *            query resulting objects must match this query. Consult the
- *            [node-mongodb-native
- *            documentation](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#query-object)
+ *                query resulting objects must match this query. Consult the
+ *                [node-mongodb-native
+ *                documentation](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#query-object)
  * @param {String|Int|ObjectId}
- *            [query._id] If specified, MongoDB will search by ID
+ *                [query._id] If specified, MongoDB will search by ID
  * @param {String[]}
- *            [fields] specifies the fields of the resulting objects
+ *                [fields] specifies the fields of the resulting objects
  * @param {Object}
- *            [options] defines extra logic (sorting options, paging etc.)
+ *                [options] defines extra logic (sorting options, paging etc.)
  * @param {Function(err,
- *            res)} callback is called when an error occurs or when the
- *            record(s) return
+ *                res)} callback is called when an error occurs or when the
+ *                record(s) return
  * @param {Error*}
- *            callback.err the error, if an error occurred or `null`
+ *                callback.err the error, if an error occurred or `null`
  * @param {Object|Int}
- *            callback.saved the record, if it has been inserted and `1` if the
- *            record has been updated
+ *                callback.saved the record, if it has been inserted and `1` if
+ *                the record has been updated
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#find}
  */
@@ -261,22 +262,22 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
  * overwrite it completely.
  * 
  * @param {Object}
- *            record record that shall be saved. This parameter can be an
- *            arbitrary _non-circular_ JS object that contains only primitive
- *            values or arrays and objects, no functions.
+ *                record record that shall be saved. This parameter can be an
+ *                arbitrary _non-circular_ JS object that contains only
+ *                primitive values or arrays and objects, no functions.
  * @param {String|Int|ObjectId}
- *            [record._id] ID that is used by MongoDB. If no ID is specified,
- *            the a default MongoDB ID will be generated.
+ *                [record._id] ID that is used by MongoDB. If no ID is
+ *                specified, the a default MongoDB ID will be generated.
  * @param {Object}
- *            [options] defines extra logic (sorting options, paging etc.)
+ *                [options] defines extra logic (sorting options, paging etc.)
  * @param {Function(err,
- *            saved)} callback is called when an error occurs or when the record
- *            has been saved
+ *                saved)} callback is called when an error occurs or when the
+ *                record has been saved
  * @param {Error*}
- *            callback.err the error, if an error occurred or `null`
+ *                callback.err the error, if an error occurred or `null`
  * @param {Object|Int}
- *            callback.saved the record, if it has been inserted and `1` if the
- *            record has been updated
+ *                callback.saved the record, if it has been inserted and `1` if
+ *                the record has been updated
  * 
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#save}
  */
