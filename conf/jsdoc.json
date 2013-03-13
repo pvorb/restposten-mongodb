@@ -5,6 +5,6 @@
   "plugins": [ "plugins/markdown" ],
   "opts": {
      "recurse": true,
-     "destination": "../persistence-mongodb-pages/" 
+     "destination": "../restposten-mongodb-pages/" 
   }
 }

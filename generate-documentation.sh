@@ -1,4 +1,4 @@
 #!/bin/sh
 
-rm ../persistence-mongodb-pages/*.html
+rm ../restposten-mongodb-pages/*.html
 jsdoc -c conf/jsdoc.json

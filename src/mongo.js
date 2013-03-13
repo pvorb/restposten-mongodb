@@ -3,9 +3,9 @@
 /**
  * A thin MongoDB layer that wraps
  * [node-mongodb-native](https://github.com/mongodb/node-mongodb-native) to be
- * used with [persistence](https://github.com/n-fuse/persistence).
+ * used with [restposten](https://github.com/n-fuse/restposten).
  * 
- * @module persistence-mongodb
+ * @module restposten-mongodb
  */
 
 var mongo = require('mongodb');

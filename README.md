@@ -1,20 +1,20 @@
-persistence-mongodb
-===================
+Restposten-MongoDB
+==================
 
 MongoDB engine intended to be used with
-[Persistence](https://github.com/n-fuse/persistence.git).
+[restposten](https://github.com/n-fuse/restposten.git).
 
 
 Installation
 ------------
 
-    npm install persistence-mongodb
+    npm install restposten-mongodb
 
 
 API Documentation
 -----------------
 
-You can find the API docs at <http://n-fuse.github.com/persistence-mongodb/>.
+You can find the API docs at <http://n-fuse.github.com/restposten-mongodb/>.
 
 
 License

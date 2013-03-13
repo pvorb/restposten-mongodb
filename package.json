@@ -1,7 +1,7 @@
 {
-	"name": "persistence-mongodb",
+	"name": "restposten-mongodb",
 	"version": "0.0.0",
-	"description": "MongoDB engine for Persistence",
+	"description": "MongoDB engine for Restposten",
 	"private": true,
 	"author": {
 		"name": "n-fuse Gmbh, Thomas Hoppe et. al.",
@@ -11,11 +11,11 @@
 	"main": "./src/mongo.js",
 	"homepage": "http://www.invend.eu",
 	"bugs": {
-		"url": "https://github.com/n-fuse/persistence-mongodb/issues"
+		"url": "https://github.com/n-fuse/restposten-mongodb/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/n-fuse/persistence-mongodb.git"
+		"url": "git://github.com/n-fuse/restposten-mongodb.git"
 	},
 	"dependencies": {
 		"async": "~0.2.5",

@@ -3,7 +3,7 @@ var async = require('async');
 
 async.waterfall([ function(callback) {
   mongo.connect({
-    name : 'persistence_test'
+    name : 'restposten_test'
   }, callback)
 }, function(db, callback) {
   db.getCollection('author', [ '_id' ], callback);
