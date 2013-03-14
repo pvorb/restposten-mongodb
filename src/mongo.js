@@ -170,6 +170,18 @@ function Collection(name, coll) {
 }
 
 /**
+ * @param query
+ * @returns
+ * 
+ * @private
+ */
+function fixID(query) {
+  // if the query _id is a hex string that is 24 digits long, convert to ObjectID
+  if (typeof query._id == 'string' && /^[0-9A-F]{24}$/i.test(query._id))
+    query._id = mongo.ObjectID.createFromHexString(query._id);
+}
+
+/**
  * Finds all records that match a given query.
  * 
  * @param {Object|String}
@@ -204,6 +216,8 @@ Collection.prototype.find = function(query, fields, options, callback) {
     options = fields;
     fields = null;
   }
+  
+  fixID(query);
 
   // call the query
   if (fields === null)
@@ -249,6 +263,8 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
     options = fields;
     fields = null;
   }
+  
+  fixID(query);
 
   // call the query
   if (fields == null)
@@ -289,6 +305,7 @@ Collection.prototype.save = function(record, options, callback) {
   }
 
   options.safe = true;
+  fixID(record);
 
   this._coll.save(record, options, callback);
 };
@@ -301,6 +318,7 @@ Collection.prototype.delete = function(query, options, callback) {
   }
   
   options.safe = true;
+  fixID(query);
   
   this._coll.remove(query, options, callback);
 };
