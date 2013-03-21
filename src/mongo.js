@@ -223,7 +223,7 @@ Collection.prototype.find = function(query, fields, options, callback) {
   if (fields === null)
     this._coll.find(query, options).toArray(callback);
   else
-    this._coll.find(query, fields).toArray(callback);
+    this._coll.find(query, fields, options).toArray(callback);
 };
 
 /**
@@ -267,7 +267,7 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
   fixID(query);
 
   // call the query
-  if (fields == null)
+  if (fields === null)
     this._coll.findOne(query, options, callback);
   else
     this._coll.findOne(query, fields, options, callback);
