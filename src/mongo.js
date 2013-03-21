@@ -171,7 +171,6 @@ function Collection(name, coll) {
 
 /**
  * @param query
- * @returns
  * 
  * @private
  */
