@@ -175,7 +175,8 @@ function Collection(name, coll) {
  * @private
  */
 function fixID(query) {
-  // if the query _id is a hex string that is 24 digits long, convert to ObjectID
+  // if the query _id is a hex string that is 24 digits long, convert to
+  // ObjectID
   if (typeof query._id == 'string' && /^[0-9A-F]{24}$/i.test(query._id))
     query._id = mongo.ObjectID.createFromHexString(query._id);
 }
@@ -309,6 +310,24 @@ Collection.prototype.save = function(record, options, callback) {
   this._coll.save(record, options, callback);
 };
 
+/**
+ * Deletes all records that match the query.
+ * 
+ * @param {Object}
+ *                query Query object
+ * @param {Object}
+ *                [options] defines extra logic (sorting options, paging etc.)
+ * @param {Function(err,deleted)}
+ *                callback is called when an error occurs or when the record has
+ *                been saved
+ * @param {Error*}
+ *                callback.err the error, if an error occurred or `null`
+ * @param {Object|Int}
+ *                callback.deleted the record, if it has been inserted and `1`
+ *                if the record has been updated
+ * 
+ * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#delete}
+ */
 Collection.prototype.delete = function(query, options, callback) {
   // optional arguments
   if (arguments.length == 2) {
@@ -320,4 +339,32 @@ Collection.prototype.delete = function(query, options, callback) {
   fixID(query);
   
   this._coll.remove(query, options, callback);
+};
+
+/**
+ * Count all records in a collection that match the query.
+ * 
+ * @param {Object}
+ *                [query]
+ * @param {Object}
+ *                [options]
+ * @param {Function(err,count)}
+ *                callback
+ * 
+ * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collectionhtml#count}
+ */
+Collection.prototype.count = function(query, options, callback) {
+  // optional arguments
+  if (arguments.length == 2) {
+    callback = options;
+    options = {};
+  } else if (arguments.length == 1) {
+    callback = options;
+    options = {};
+  }
+  
+  options.safe = true;
+  fixID(query);
+  
+  this._coll.count(query, options, callback);
 };
