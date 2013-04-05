@@ -4,7 +4,7 @@
  * A thin MongoDB layer that wraps
  * [node-mongodb-native](https://github.com/mongodb/node-mongodb-native) to be
  * used with [restposten](https://github.com/n-fuse/restposten).
- * 
+ *
  * @module restposten-mongodb
  */
 
@@ -13,7 +13,7 @@ var async = require('async');
 
 /**
  * Connects to a MongoDB database.
- * 
+ *
  * @param {Object}
  *                [options] a single object for the Server options and the DB
  *                options.
@@ -30,7 +30,7 @@ var async = require('async');
  *                callback.err the error, if an error occurred or `null`
  * @param {DB}
  *                callback.db the `DB` instance
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/database.html#server-options}
  *      and
  *      {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/database.html#db-options}
@@ -66,11 +66,11 @@ exports.connect = function(options, callback) {
 /**
  * @classdesc Thin wrapper around mongodb's Db class.
  * @constructor
- * 
+ *
  * @param {Db}
  *                dbConnection db connection object
  * @property {String} protocol Database protocol
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html}
  */
 function DB(dbConnection) {
@@ -80,7 +80,7 @@ function DB(dbConnection) {
 /**
  * Creates/gets a collection. Additionally, this method ensures the fields given
  * in `indexes` are always indexed.
- * 
+ *
  * @param {String}
  *                name collection's name
  * @param {Array}
@@ -93,7 +93,7 @@ function DB(dbConnection) {
  *                callback.err the error, if an error occurred or `null`
  * @param {Collection}
  *                callback.collection the `Collection` instance
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/markdown-docs/indexes.html}
  */
 DB.prototype.getCollection = function(name, indexes, callback) {
@@ -123,7 +123,7 @@ DB.prototype.getCollection = function(name, indexes, callback) {
 
 /**
  * Closes the connection to the database.
- * 
+ *
  * @param {Boolean}
  *                [force] force to close the connect so that it cannot be
  *                reused.
@@ -134,7 +134,7 @@ DB.prototype.getCollection = function(name, indexes, callback) {
  *                callback.err the error, if an error occurred or `null`
  * @param {Object}
  *                callback.results
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/db.html#close}
  */
 DB.prototype.close = function(force, callback) {
@@ -151,19 +151,19 @@ DB.prototype.close = function(force, callback) {
 /**
  * @classdesc Thin wrapper around mongodb's collection type.
  * @constructor
- * 
+ *
  * @param {String}
  *                name name of the collection
  * @param {Object}
  *                collection collection object
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html}
- * 
+ *
  * @property {String} name name of the collection
  */
 function Collection(name, coll) {
   this._coll = coll;
-  
+
   this.__defineGetter__('name', function() {
     return name;
   });
@@ -171,7 +171,7 @@ function Collection(name, coll) {
 
 /**
  * @param query
- * 
+ *
  * @private
  */
 function fixID(query) {
@@ -183,7 +183,7 @@ function fixID(query) {
 
 /**
  * Finds all records that match a given query.
- * 
+ *
  * @param {Object|String}
  *                query resulting objects must match this query. Consult the
  *                [node-mongodb-native
@@ -202,7 +202,7 @@ function fixID(query) {
  * @param {Object|Int}
  *                callback.saved the record, if it has been inserted and `1` if
  *                the record has been updated
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#find}
  */
 Collection.prototype.find = function(query, fields, options, callback) {
@@ -216,7 +216,7 @@ Collection.prototype.find = function(query, fields, options, callback) {
     options = fields;
     fields = null;
   }
-  
+
   fixID(query);
 
   // call the query
@@ -230,7 +230,7 @@ Collection.prototype.find = function(query, fields, options, callback) {
  * Finds the first record that matches a given query. Use this method, if you
  * know that there will be only one resulting document. (E.g. when you want to
  * find a result by its `_id`.)
- * 
+ *
  * @param {Object|String}
  *                query resulting objects must match this query. Consult the
  *                [node-mongodb-native
@@ -249,7 +249,7 @@ Collection.prototype.find = function(query, fields, options, callback) {
  * @param {Object|Int}
  *                callback.saved the record, if it has been inserted and `1` if
  *                the record has been updated
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#find}
  */
 Collection.prototype.findOne = function(query, fields, options, callback) {
@@ -263,7 +263,7 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
     options = fields;
     fields = null;
   }
-  
+
   fixID(query);
 
   // call the query
@@ -276,7 +276,7 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
 /**
  * Saves a record. If an object with the same `_id` exists already, this will
  * overwrite it completely.
- * 
+ *
  * @param {Object}
  *                record record that shall be saved. This parameter can be an
  *                arbitrary _non-circular_ JS object that contains only
@@ -294,7 +294,7 @@ Collection.prototype.findOne = function(query, fields, options, callback) {
  * @param {Object|Int}
  *                callback.saved the record, if it has been inserted and `1` if
  *                the record has been updated
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#save}
  */
 Collection.prototype.save = function(record, options, callback) {
@@ -311,8 +311,43 @@ Collection.prototype.save = function(record, options, callback) {
 };
 
 /**
+ * Replaces a record. If there already is a record that matches the criteria,
+ * this will overwrite it completely.
+ *
+ * @param {Object}
+ *                criteria criteria for the record to be replaced.
+ * @param {Object}
+ *                record record that shall be saved. This parameter can be an
+ *                arbitrary _non-circular_ JS object that contains only
+ *                primitive values or arrays and objects, no functions.
+ * @param {Object}
+ *                [options] defines extra logic (sorting options, paging etc.)
+ * @param {Function(err,saved)}
+ *                callback is called when an error occurs or when the record has
+ *                been saved
+ * @param {Error*}
+ *                callback.err the error, if an error occurred or `null`
+ * @param {Object|Int}
+ *                callback.saved the record, if it has been inserted and `1` if
+ *                the record has been updated
+ *
+ * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#update}
+ */
+Collection.prototype.update = function(criteria, record, options, callback) {
+  if (arguments.length == 3) {
+    callback = options;
+    options = {};
+  }
+
+  options.safe = true;
+  fixID(record);
+
+  this._coll.update(criteria, record, options, callback);
+};
+
+/**
  * Deletes all records that match the query.
- * 
+ *
  * @param {Object}
  *                query Query object
  * @param {Object}
@@ -325,7 +360,7 @@ Collection.prototype.save = function(record, options, callback) {
  * @param {Object|Int}
  *                callback.deleted the record, if it has been inserted and `1`
  *                if the record has been updated
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collection.html#delete}
  */
 Collection.prototype.delete = function(query, options, callback) {
@@ -334,23 +369,23 @@ Collection.prototype.delete = function(query, options, callback) {
     callback = options;
     options = {};
   }
-  
+
   options.safe = true;
   fixID(query);
-  
+
   this._coll.remove(query, options, callback);
 };
 
 /**
  * Count all records in a collection that match the query.
- * 
+ *
  * @param {Object}
  *                [query]
  * @param {Object}
  *                [options]
  * @param {Function(err,count)}
  *                callback
- * 
+ *
  * @see {@link http://mongodb.github.com/node-mongodb-native/api-generated/collectionhtml#count}
  */
 Collection.prototype.count = function(query, options, callback) {
@@ -362,9 +397,9 @@ Collection.prototype.count = function(query, options, callback) {
     callback = options;
     options = {};
   }
-  
+
   options.safe = true;
   fixID(query);
-  
+
   this._coll.count(query, options, callback);
 };
